@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ISS Locator</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script src="https://cdn-webgl.wrld3d.com/wrldjs/dist/latest/wrld.js"></script>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+            integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+            crossorigin=""
+        />
+
+         <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin="">
+        </script>
+        <style>
+            #mapid { 
+                height: 700px; 
+            }
+        </style>
+    </head>
+    <body>
+        <section class="section">
+            <div class="container">
+              <h1 class="title">
+                International Space Station
+              </h1>
+              <p class="subtitle">
+                Track the station and get current latitude, longitude!
+              </p>
+              <hr>
+            <div id="mapid"></div>
+            </div>
+            
+          </section>
+
+
+
+
+
+        <!-- Javascript parts -->
+        <script>
+            const attribution = '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors';
+            const mymap = L.map('mapid').setView([0, 0], 2);
+
+            var iss_icon = L.icon({
+                iconUrl: 'images/iss.png',
+                iconSize: [100, 64]
+            });
+            const marker = L.marker([0, 0], {icon: iss_icon}).addTo(mymap);
+
+            
+            
+
+            //const tileUrl = 'http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+            //const tileUrl =  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const tileUrl =  'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
+            const tiles = L.tileLayer(tileUrl, { attribution });
+            tiles.addTo(mymap);
+
+            const API_URL = 'https://api.wheretheiss.at/v1/satellites/25544';
+            async function getData(){
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                console.log(data)
+                const { latitude, longitude } = data;
+
+                mymap.setView([latitude, longitude], 2);
+                marker.setLatLng([latitude, longitude]);
+
+                var popup = L.popup()
+                .setLatLng([latitude, longitude])
+                .setContent('Latitude: ' + latitude.toFixed(2) +  '<br>longitude: ' + longitude.toFixed(2))
+                .openOn(mymap);
+                marker.bindPopup(popup).openPopup();
+                
+
+                //document.getElementById('lat').textContent = latitude;
+                //document.getElementById('lon').textContent = longitude;
+            }
+
+            getData();
+            setInterval(getData, 1000);
+        </script>
+    </body>
+
+</html>
