@@ -7,7 +7,7 @@ See Live - https://niyazed.github.io/iss_locator/
 </p>
 
 ## Data Source
-Get the space station data in realtime from below link - https://api.wheretheiss.at/v1/satellites/25544
+Get the space station data in realtime from this link - https://api.wheretheiss.at/v1/satellites/25544
 ```json
 {
     "name": "iss",
