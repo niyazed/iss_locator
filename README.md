@@ -2,12 +2,12 @@
 # Internation Space Station Tracker
 See Live - https://niyazed.github.io/iss_locator/
 
-#### Data fetching snippet
+### Data Fetching Snippet -
 <p align="center"><img src="snippet.png" width="800px">
 </p>
 
-#### Get space station data 
-<b>link</b> - https://api.wheretheiss.at/v1/satellites/25544
+## Data Source
+Get the space station data in realtime from below link - https://api.wheretheiss.at/v1/satellites/25544
 ```json
 {
     "name": "iss",
