@@ -1,5 +1,5 @@
 ![screenshot.png](screenshot.png)
-# Internation Space Station Tracker
+# International Space Station Tracker
 See Live - https://niyazed.github.io/iss_locator/
 
 ### Data Fetching Snippet -
